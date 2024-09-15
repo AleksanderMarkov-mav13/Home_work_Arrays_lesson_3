@@ -16,8 +16,34 @@ void output_array (char array [] [3]) {
         cout << endl;
     }
 }
-
-
+bool check_array(char array[][3])
+{
+    bool result = false;
+    for (int i = 0; i < 3; ++i)
+    {
+        if (array[i][0] == array[i][1] && array[i][0] == array[i][2] && array[i][0] != ' ') 
+        {
+            result = true;
+            return result;
+        }
+        if (array[0][i] == array[1][i] && array[0][i] == array[2][i] && array[0][i] != ' ')
+        {
+            result = true;
+            return result;
+        }
+    }
+    if (array[1][1] == array[0][0] && array[1][1] == array[2][2] && array[0][0] != ' ')
+    {
+        result = true;
+        return result;
+    }
+    if (array[1][1] == array[0][2] && array[1][1] == array[2][0] && array[1][1] != ' ')
+    {
+        result = true;
+        return result;
+    }
+    return result;
+}
 int main()
 {
     cout << "\033[2J\033[1;1H";
@@ -31,6 +57,7 @@ int main()
     // output_array (field);
     bool que_step = false; // флаг - определяет, чей ход. По умолчанию - Х
     int vert, horiz;
+    bool win = false;
     for (int i = 0; i < 9; ++i)
     { 
         cout << "This is the step of player ";
@@ -66,5 +93,18 @@ int main()
             }
         }
         output_array(field);
+        win = check_array(field);
+        if (win) {
+            cout << "The player ";
+            if (que_step) {
+                cout << "X has won !!!";
+            } else {
+                cout << "O has won !!!";
+            }
+            break;
+        }
+    }
+    if (!win) {
+    cout << "The result of the game is a draw! \n";
     }
 }
