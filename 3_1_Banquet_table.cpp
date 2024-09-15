@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 using namespace std;
 void input (int array[2][6])
 {
