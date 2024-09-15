@@ -28,7 +28,7 @@ int main()
             field [i][j] = ' ';
         }
     }
-    output_array (field);
+    // output_array (field);
     bool que_step = false; // флаг - определяет, чей ход. По умолчанию - Х
     int vert, horiz;
     for (int i = 0; i < 9; ++i)
@@ -39,6 +39,7 @@ int main()
         } else {
         cout << "O";
         }
+        cout << "\n";
         do {
             cout << "Input a string number ";
             cin >> vert;
@@ -48,4 +49,22 @@ int main()
                 cout << "Wrong input!\n";
             }
         } while (vert < 1 || vert > 3 || horiz < 1 || horiz > 3);
+        vert --;
+        horiz --;
+        if (field[vert][horiz] != ' ')
+        {
+            cout << "This place has been busy already!\n";
+        }
+        else
+        {
+            if (que_step == false) {
+                field[vert][horiz] = 'X';
+                que_step = true;
+            } else {
+                field[vert][horiz] = 'O';
+                que_step = false;
+            }
+        }
+        output_array(field);
     }
+}
