@@ -13,5 +13,19 @@ int main()
                           {3, 4, 2, 3},
                           {5, 7, 4, 8},
                           {6, 3, 9, 0}};
-                          
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            cout << "Input element " << i << " " << j << "matrix one\n";
+            cin >> matr_one[i][j];
+        }
+
+    }
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            cout << "Input element " << i << " " << j << "matrix two\n";
+            cin >> matr_two[i][j];
+        }
+    }
 }
