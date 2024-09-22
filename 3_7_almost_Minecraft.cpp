@@ -12,6 +12,13 @@ int main()
         for (int j = 0; j < 5; j++)
         {
             cin >> matrix[i][j];
+            // Контроль ввода высот
+            if (matrix[i][j] < 0 || matrix[i][j] > 10)
+            {
+                cout << "Incorrect hight: " << matrix[i][j] << ". It have to be from 0 to 9.\n ";
+                cout << "Please, repeat your input ";
+                cin >> matrix[i][j];
+            }
         }
         cout << "\n";
     }
@@ -25,5 +32,36 @@ int main()
         }
         cout << "\n";
     }
-    
+    int slice;
+    do {
+        cout << "Input number of slice from that you want to see our world \n";
+        cout << "If you want to stop review: input '-1' \n";
+        cin >> slice;
+        if (slice == -1) {
+            break;
+        }
+        else if (slice < 0 || slice > 10)
+        {
+            cout << "Incorrect number of slice: " << slice << ". It have to be from 0 to 9.\n ";
+            cout << "Please, repeat your input ";
+            cin >> slice;
+        }
+        cout << "It's our world - view from slice " << slice << ":\n ";
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                if ((matrix[i][j] - slice + 1) > 0)
+                {
+                    cout << '1';
+                }
+                else
+                {
+                    cout << '0';
+                }
+                cout << " ";
+            }
+            cout << "\n";
+    }
+    } while (true);
 }
