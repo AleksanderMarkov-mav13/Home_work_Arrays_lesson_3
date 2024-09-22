@@ -73,7 +73,6 @@ bool bursting(bool matrix[12][12], int vert_beg, int horiz_beg, int vert_fin, in
                 cout << "Pop! \n";
             }
         }
-        // cout << "\n";
     }
     return matrix;
 }
@@ -88,13 +87,15 @@ int main()
     bool flag = show_matrix(matrix);
     int vert_beg = 0, horiz_beg = 0, vert_fin = 0, horiz_fin = 0;
     do  {
-        cout << "Input vertical coordinate of point for start bursting\n";
+        cout << "Input coordinates of the point for start bursting\n";
+        cout << "Vertical ";
         vert_beg = check_input(vert_beg);
-        cout << "Input horizontal coordinate of point for start bursting\n";
+        cout << "Horizontal ";
         horiz_beg = check_input(horiz_beg);
-        cout << "Input vertical coordinate of point for finish bursting\n";
+        cout << "\nInput coordinates of the point for finish bursting\n";
+        cout << "Vertical ";
         vert_fin = check_input(vert_fin);
-        cout << "Input horizontal coordinate of point for finish bursting\n";
+        cout << "Horizontal ";
         horiz_fin = check_input(horiz_fin);
         cout << "So, we start bursting from the point " << vert_beg << ' ' << horiz_beg << "\n";
         cout << "And finish bursting to the point " << vert_fin << ' ' << horiz_fin << "\n";
