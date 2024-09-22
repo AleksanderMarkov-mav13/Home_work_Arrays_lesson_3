@@ -48,6 +48,36 @@ bool show_matrix(bool matrix[12][12])
     }
     return result;
 }
+// Функция для отражения разрывов в матрице
+bool bursting(bool matrix[12][12], int vert_beg, int horiz_beg, int vert_fin, int horiz_fin)
+{
+    if (vert_beg > vert_fin)
+    {
+        vert_fin = vert_fin + vert_beg;
+        vert_beg = vert_fin - vert_beg;
+        vert_fin = vert_fin - vert_beg;
+    }
+    if (horiz_beg > horiz_fin)
+    {
+        horiz_fin = horiz_fin + horiz_beg;
+        horiz_beg = horiz_fin - horiz_beg;
+        horiz_fin = horiz_fin - horiz_beg;
+    }
+    for (int i = vert_beg - 1; i < vert_fin; i++)
+    {
+        for (int j = horiz_beg - 1; j < horiz_fin; j++)
+        {
+            if (matrix[i][j])
+            {
+                matrix[i][j] = false;
+                cout << "Pop! \n";
+            }
+        }
+        // cout << "\n";
+    }
+    return matrix;
+}
+
 int main()
 {
     cout << "\033[2J\033[1;1H";
@@ -57,7 +87,7 @@ int main()
     filling_matrix(matrix);
     bool flag = show_matrix(matrix);
     int vert_beg = 0, horiz_beg = 0, vert_fin = 0, horiz_fin = 0;
-    if (flag) {
+    do  {
         cout << "Input vertical coordinate of point for start bursting\n";
         vert_beg = check_input(vert_beg);
         cout << "Input horizontal coordinate of point for start bursting\n";
@@ -66,7 +96,11 @@ int main()
         vert_fin = check_input(vert_fin);
         cout << "Input horizontal coordinate of point for finish bursting\n";
         horiz_fin = check_input(horiz_fin);
-    }
-    cout << "Start bursting from point " << vert_beg << ' ' << horiz_beg << "\n";
-    cout << "Finish bursting from point " << vert_fin << ' ' << horiz_fin << "\n";
+        cout << "So, we start bursting from the point " << vert_beg << ' ' << horiz_beg << "\n";
+        cout << "And finish bursting to the point " << vert_fin << ' ' << horiz_fin << "\n";
+        cout << "Let's start! \n";
+        bursting(matrix, vert_beg, horiz_beg, vert_fin, horiz_fin);
+        flag = show_matrix(matrix);
+    } while (flag);
+    cout << "That's all! All the bubbles were bursted!";
 }
