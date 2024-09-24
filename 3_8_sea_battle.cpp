@@ -53,17 +53,21 @@ bool check_busy_place(bool matrix[10][10], int size, int vert, int vert_diff, in
     {
         if (vert_diff > horiz_diff)
         {
-            if (matrix[vert + j][horiz] = true)
+            cout << "Проверяем точку с координатами " << vert + j << " | " << horiz;
+            if (matrix[vert + j][horiz])
             {
                 result = false;
+                cout << "result = false";
                 break;
             }
         }
         else
         {
-            if (matrix[vert][horiz + j] = true)
+            cout << "Проверяем точку с координатами " << vert << " | " << horiz + j;
+            if (matrix[vert][horiz + j])
             {
                 result = false;
+                cout << "result = false";
                 break;
             }
         }
@@ -129,8 +133,10 @@ bool arranging_ships(bool matrix[10][10])
                 horiz_diff = abs(horiz - horiz_2);
                 cout << "Vertical: " << vert << " | " << vert_2 << " | " << vert_diff << "\n";
                 cout << "Horizontal: " << horiz << " | " << horiz_2 << " | " << horiz_diff << "\n";
-                if (((vert_diff + horiz_diff) != list_ships[i] - 1) & (vert_diff != 1 || horiz_diff != 1 ))
+                if (((vert_diff + horiz_diff) == list_ships[i] - 1) & (vert_diff == 1 || horiz_diff == 1 ))
                 {
+                    
+                } else {
                     flag = false;
                     cout << "Inputed data are not suitable parametres of your ship! Please, repeat input \n";
                 }
@@ -149,6 +155,7 @@ bool arranging_ships(bool matrix[10][10])
                     matrix[vert][horiz + j] = true;
                 }
             }
+            show_matrix(matrix);
         }
     }
     return matrix;
