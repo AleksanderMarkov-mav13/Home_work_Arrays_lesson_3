@@ -53,21 +53,19 @@ bool check_busy_place(bool matrix[10][10], int size, int vert, int vert_diff, in
     {
         if (vert_diff > horiz_diff)
         {
-            cout << "Проверяем точку с координатами " << vert + j << " | " << horiz;
             if (matrix[vert + j][horiz])
             {
                 result = false;
-                cout << "result = false";
+                cout << "Sorry, but some of these places are busy with other ship! Please, repeat input coordinates\n";
                 break;
             }
         }
         else
         {
-            cout << "Проверяем точку с координатами " << vert << " | " << horiz + j;
             if (matrix[vert][horiz + j])
             {
                 result = false;
-                cout << "result = false";
+                cout << "Sorry, but some of these places are busy with other ship! Please, repeat input coordinates\n";
                 break;
             }
         }
@@ -79,6 +77,7 @@ bool check_busy_place(bool matrix[10][10], int size, int vert, int vert_diff, in
 bool arranging_ships(bool matrix[10][10])
 {
     int list_ships [10] = {1, 1, 1, 1, 2, 2, 2, 3, 3, 4};
+    // int list_ships[num_ships] = {2, 2, 2, 3, 3, 4};
     int vert, horiz;
     int vert_2, horiz_2;
     int vert_diff = 0, horiz_diff = 0;
@@ -88,7 +87,6 @@ bool arranging_ships(bool matrix[10][10])
             if (list_ships[i] > 1)
         {
             cout << "es\n";
-            show_matrix(matrix);
         }
         cout << "\n";
         // Ввод кораблей в одну клетку
@@ -109,6 +107,7 @@ bool arranging_ships(bool matrix[10][10])
                 }
             } while (matrix[vert][horiz]);
             matrix[vert][horiz] = true;
+            show_matrix(matrix);
         } 
         // Ввод кораблей в несколько клеток
         else {
@@ -128,20 +127,25 @@ bool arranging_ships(bool matrix[10][10])
                 cout << "Horizontal: ";
                 cin >> horiz_2;
                 horiz_2 = check_field_parametr(horiz_2);
+                if (vert > vert_2) swap(vert, vert_2);
+                if (horiz > horiz_2) swap(horiz, horiz_2);
                 // Контроль соответствия длины корабля параметрам
                 vert_diff = abs (vert - vert_2);
                 horiz_diff = abs(horiz - horiz_2);
-                cout << "Vertical: " << vert << " | " << vert_2 << " | " << vert_diff << "\n";
-                cout << "Horizontal: " << horiz << " | " << horiz_2 << " | " << horiz_diff << "\n";
-                if (((vert_diff + horiz_diff) == list_ships[i] - 1) & (vert_diff == 1 || horiz_diff == 1 ))
+                // cout << "Vertical: " << vert << " | " << vert_2 << " | " << vert_diff << "\n";
+                // cout << "Horizontal: " << horiz << " | " << horiz_2 << " | " << horiz_diff << "\n";
+                if (((vert_diff + horiz_diff) == list_ships[i] - 1) & (vert_diff == 0 || horiz_diff == 0 ))
                 {
-                    
+                    flag = true;
                 } else {
                     flag = false;
                     cout << "Inputed data are not suitable parametres of your ship! Please, repeat input \n";
                 }
-                // Контроль занятости полей - через функцию 
-                flag = check_busy_place(matrix, list_ships[i], vert, vert_diff, horiz, horiz_diff);
+                // Контроль занятости полей - через функцию
+                if (flag)
+                {
+                    flag = check_busy_place(matrix, list_ships[i], vert, vert_diff, horiz, horiz_diff);
+                }
             } while (!flag);
             // Заполнение матрицы - после всех контролей
             for (int j = 0; j < list_ships[i]; j++)
