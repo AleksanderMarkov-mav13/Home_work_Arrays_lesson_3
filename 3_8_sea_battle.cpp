@@ -1,7 +1,8 @@
 #include <iostream>
 using namespace std;
 // Функция для вывода матрицы
-void show_matrix(bool matrix[][10])
+// shot_flag - флаг для вывода переменной выстрелов
+void show_matrix(bool matrix[][10], bool shot_flag)
 {
     cout << " ";
     for (int j = 0; j < 10; j++)
@@ -14,10 +15,15 @@ void show_matrix(bool matrix[][10])
         cout << i;
         for (int j = 0; j < 10; j++)
         {
-            if (matrix[i][j])
+            if (matrix[i][j] & !shot_flag)
             {
                 cout << " # ";
-            } else {
+            }
+            else if (matrix[i][j] & shot_flag)
+            {
+                cout << " v ";
+            }
+            else {
                 cout << " _ ";
             }
         }
@@ -81,6 +87,7 @@ bool arranging_ships(bool matrix[][10])
     int vert, horiz;
     int vert_2, horiz_2;
     int vert_diff = 0, horiz_diff = 0;
+    bool shot_flag = false;
     for (int i = 0; i < 10; i++)
     {
         cout << "Your ship number " << i + 1 << " should contain " << list_ships[i] << " cell";
@@ -107,7 +114,7 @@ bool arranging_ships(bool matrix[][10])
                 }
             } while (matrix[vert][horiz]);
             matrix[vert][horiz] = true;
-            show_matrix(matrix);
+            show_matrix(matrix, shot_flag);
         } 
         // Ввод кораблей в несколько клеток
         else {
@@ -159,7 +166,7 @@ bool arranging_ships(bool matrix[][10])
                     matrix[vert][horiz + j] = true;
                 }
             }
-            show_matrix(matrix);
+            show_matrix(matrix, shot_flag);
         }
     }
     return matrix;
@@ -180,11 +187,16 @@ int main()
     field_one[10][10] = arranging_ships(field_one);
     cout << "Player TWO, arrange your ships! \n";
     field_two[10][10] = arranging_ships(field_two);
+    // Блок стрельбы
     int rest_p_one = 20;
     int rest_p_two = 20;
     int vert, horiz;
+    cout << "\033[2J\033[1;1H";
     do {
         cout << "Player ONE, your shot! \n";
+        bool shot_flag = true;
+        cout << "This is a tip for you:\n";
+        show_matrix(shot_field_one, shot_flag);
         cout << "Where do you wont to shot - Input coordinate!\n";
         cout << "Vertical: ";
         cin >> vert;
@@ -192,20 +204,23 @@ int main()
         cout << "Horizontal: ";
         cin >> horiz;
         horiz = check_field_parametr(horiz);
+        shot_field_one [vert][horiz] = true;
         if (field_two[vert][horiz])
         {
-            cout << "HIT!!!";
+            cout << "HIT!!!\n";
             rest_p_two--;
             field_two[vert][horiz] = false;
             if (rest_p_two == 0) {
-                cout << "Player TWO DRAWN... Player ONE WIN !!!";
+                cout << "\nPlayer TWO DRAWN... Player ONE WIN !!!";
                 break;
             }           
         }
         else {
-            cout << "You missed...";
+            cout << "Player ONE missed...\n";
         }
         cout << "Player TWO, your shot! \n";
+        cout << "This is a tip for you:\n";
+        show_matrix(shot_field_two, shot_flag);
         cout << "Where do you wont to shot? Input coordinate!\n";
         cout << "Vertical: ";
         cin >> vert;
@@ -213,21 +228,22 @@ int main()
         cout << "Horizontal: ";
         cin >> horiz;
         horiz = check_field_parametr(horiz);
+        shot_field_two[vert][horiz] = true;
         if (field_one[vert][horiz])
         {
-            cout << "HIT!!!";
+            cout << "HIT!!!\n";
             rest_p_one--;
             field_one[vert][horiz] = false;
             if (rest_p_one == 0)
             {
-                cout << "Player ONE DRAWN... Player TWO WIN !!!";
+                cout << "\nPlayer ONE DRAWN... Player TWO WIN !!!";
                 break;
             }
         }
         else
         {
-            cout << "You missed...";
+            cout << "Player TWO missed...\n";
         } 
     } while (rest_p_one > 0 & rest_p_two > 0);
-    show_matrix(field_one);
+    
 }
