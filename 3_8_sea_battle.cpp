@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 // Функция для вывода матрицы
-void show_matrix(bool matrix[10][10])
+void show_matrix(bool matrix[][10])
 {
     cout << " ";
     for (int j = 0; j < 10; j++)
@@ -26,8 +26,8 @@ void show_matrix(bool matrix[10][10])
     
 }
 
-// Функция для заполнения матриц
-void filling_matrix(bool matrix[10][10])
+// Функция для первоначального заполнения матриц
+void filling_matrix(bool matrix[][10])
 {
     for (int i = 0; i < 10; i++)
     {
@@ -46,7 +46,7 @@ int check_field_parametr (int n) {
     return n;
 }
 // Функция - контроль занятости полей
-bool check_busy_place(bool matrix[10][10], int size, int vert, int vert_diff, int horiz, int horiz_diff)
+bool check_busy_place(bool matrix[][10], int size, int vert, int vert_diff, int horiz, int horiz_diff)
 {
     bool result = true;
     for (int j = 0; j < size; j++)
@@ -74,7 +74,7 @@ bool check_busy_place(bool matrix[10][10], int size, int vert, int vert_diff, in
 }
 
 // Функция для расстановки кораблей
-bool arranging_ships(bool matrix[10][10])
+bool arranging_ships(bool matrix[][10])
 {
     int list_ships [10] = {1, 1, 1, 1, 2, 2, 2, 3, 3, 4};
     // int list_ships[num_ships] = {2, 2, 2, 3, 3, 4};
@@ -170,9 +170,64 @@ int main()
     cout << "You can play sea_battle with this programme\n";
     bool field_one[10][10];
     bool field_two[10][10];
+    bool shot_field_one[10][10];
+    bool shot_field_two[10][10];
     filling_matrix(field_one);
     filling_matrix(field_two);
-    cout << "Player one, arrange your ships! \n";
+    filling_matrix(shot_field_one);
+    filling_matrix(shot_field_two);
+    cout << "Player ONE, arrange your ships! \n";
     field_one[10][10] = arranging_ships(field_one);
+    cout << "Player TWO, arrange your ships! \n";
+    field_two[10][10] = arranging_ships(field_two);
+    int rest_p_one = 20;
+    int rest_p_two = 20;
+    int vert, horiz;
+    do {
+        cout << "Player ONE, your shot! \n";
+        cout << "Where do you wont to shot - Input coordinate!\n";
+        cout << "Vertical: ";
+        cin >> vert;
+        vert = check_field_parametr(vert);
+        cout << "Horizontal: ";
+        cin >> horiz;
+        horiz = check_field_parametr(horiz);
+        if (field_two[vert][horiz])
+        {
+            cout << "HIT!!!";
+            rest_p_two--;
+            field_two[vert][horiz] = false;
+            if (rest_p_two == 0) {
+                cout << "Player TWO DRAWN... Player ONE WIN !!!";
+                break;
+            }           
+        }
+        else {
+            cout << "You missed...";
+        }
+        cout << "Player TWO, your shot! \n";
+        cout << "Where do you wont to shot? Input coordinate!\n";
+        cout << "Vertical: ";
+        cin >> vert;
+        vert = check_field_parametr(vert);
+        cout << "Horizontal: ";
+        cin >> horiz;
+        horiz = check_field_parametr(horiz);
+        if (field_one[vert][horiz])
+        {
+            cout << "HIT!!!";
+            rest_p_one--;
+            field_one[vert][horiz] = false;
+            if (rest_p_one == 0)
+            {
+                cout << "Player ONE DRAWN... Player TWO WIN !!!";
+                break;
+            }
+        }
+        else
+        {
+            cout << "You missed...";
+        } 
+    } while (rest_p_one > 0 & rest_p_two > 0);
     show_matrix(field_one);
 }
